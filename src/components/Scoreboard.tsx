@@ -1,9 +1,12 @@
-import { $scoreboard } from "@/stores/scoreboard";
+import { $scoreboard, addPlayer } from "@/stores/scoreboard";
 import { useStore } from "@nanostores/preact";
-import AddNewPlayer from "./AddNewPlayer";
+import { useRef, useState } from "preact/hooks";
 
 export default function Scoreboard() {
   const scoreboard = useStore($scoreboard);
+
+  const [addingPlayer, setAddingPlayer] = useState(false);
+  const addPlayerInput = useRef<HTMLInputElement>(null);
 
   return (
     <div>
@@ -49,7 +52,46 @@ export default function Scoreboard() {
           <tr>
             <td></td>
             <td className="w-full">
-              <AddNewPlayer />
+              {addingPlayer ? (
+                <form
+                  onSubmit={() => {
+                    const playerName = addPlayerInput.current?.value;
+
+                    if (playerName) {
+                      addPlayer(playerName);
+                    }
+
+                    setAddingPlayer(false);
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Player name"
+                    className="bg-transparent"
+                    ref={addPlayerInput}
+                    onBlur={() => {
+                      const playerName = addPlayerInput.current?.value;
+
+                      if (playerName) {
+                        addPlayer(playerName);
+                      }
+
+                      setAddingPlayer(false);
+                    }}
+                  />
+                </form>
+              ) : (
+                <button
+                  onClick={() => {
+                    setAddingPlayer(true);
+                    setTimeout(() => {
+                      addPlayerInput.current?.focus();
+                    }, 0);
+                  }}
+                >
+                  + Add player
+                </button>
+              )}
             </td>
           </tr>
         </tbody>
