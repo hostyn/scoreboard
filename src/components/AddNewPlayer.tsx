@@ -7,7 +7,7 @@ export default function AddNewPlayer() {
 
   return (
     <>
-      <button onClick={() => setModalOpen(true)}>Add player</button>
+      <button onClick={() => setModalOpen(true)}>+ Add player</button>
       <dialog
         open={modalOpen}
         className="absolute bg-black/5 top-0 bottom-0 left-0 right-0 z-10"

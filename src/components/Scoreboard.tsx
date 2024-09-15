@@ -1,5 +1,6 @@
-import { $scoreboard, addPlayer } from "@/stores/scoreboard";
+import { $scoreboard } from "@/stores/scoreboard";
 import { useStore } from "@nanostores/preact";
+import AddNewPlayer from "./AddNewPlayer";
 
 export default function Scoreboard() {
   const scoreboard = useStore($scoreboard);
@@ -9,7 +10,7 @@ export default function Scoreboard() {
       <table>
         <thead>
           <tr>
-            <th></th>
+            <th className="text-left">#</th>
             <th className="text-left">Player</th>
             {scoreboard.rounds.map((_round, index) => (
               <th key={index} className="text-left">
@@ -45,19 +46,14 @@ export default function Scoreboard() {
                 </td>
               </tr>
             ))}
+          <tr>
+            <td></td>
+            <td className="w-full">
+              <AddNewPlayer />
+            </td>
+          </tr>
         </tbody>
       </table>
-      <button
-        className="mt-12"
-        onClick={() => {
-          addPlayer("Ruben");
-          addPlayer("Sergio");
-          addPlayer("Montiel");
-          addPlayer("Alba");
-        }}
-      >
-        Initialize
-      </button>
     </div>
   );
 }

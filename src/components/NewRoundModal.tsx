@@ -17,7 +17,7 @@ export default function NewRoundModal() {
   return (
     <>
       <button
-        className="bg-primary-300 rounded-sm px-2 py-1"
+        className="bg-primary-300 rounded-sm px-2 py-1 w-fit"
         onClick={() => {
           reset();
           setModalOpen(true);
@@ -27,10 +27,10 @@ export default function NewRoundModal() {
       </button>
       <dialog
         open={modalOpen}
-        className="absolute top-0 bottom-0 left-0 right-0 p-8 bg-primary-950 text-white z-10 rounded-md"
+        className="absolute top-0 bottom-0 left-0 right-0 p-8 bg-primary-950 text-white z-10 rounded-md w-[700px] max-w-[100vw] max-h-[100vh] overflow-scroll"
       >
         <form
-          className="w-[800px] m-auto flex flex-col gap-2"
+          className="m-auto flex flex-col"
           onSubmit={(e) => {
             e.preventDefault();
             setModalOpen(false);
@@ -41,41 +41,53 @@ export default function NewRoundModal() {
             Round {scoreboard.rounds.length}
           </h2>
           {newRound.map((playerRound) => (
-            <div key={playerRound.index} className="flex gap-2">
+            <div
+              key={playerRound.index}
+              className="flex items-center border-b border-primary-500/20 py-2"
+            >
               <span className="w-full text-gray-300">{playerRound.name}</span>
+              <div className="flex gap-2 flex-col items-center md:flex-row">
+                <div className="flex gap-2">
+                  {[10, 5, 2, 1].map((points) => (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        addPointsToPlayer(playerRound.index, -points)
+                      }
+                      className="bg-red-800 hover:bg-red-700 transition-colors rounded-sm min-w-8 aspect-square text-center text-sm"
+                    >
+                      -{points}
+                    </button>
+                  ))}
+                </div>
 
-              {[10, 5, 2, 1].map((points) => (
-                <button
-                  type="button"
-                  onClick={() => addPointsToPlayer(playerRound.index, -points)}
-                  className="bg-red-800 hover:bg-red-700 transition-colors rounded-sm min-w-8 aspect-square text-center text-sm"
-                >
-                  -{points}
-                </button>
-              ))}
+                <input
+                  className="w-12 bg-transparent text-center font-bold"
+                  value={playerRound.points}
+                  type="number"
+                  placeholder="0"
+                  onChange={(e) => {
+                    updatePlayerPoints(
+                      playerRound.index,
+                      e.currentTarget.valueAsNumber
+                    );
+                  }}
+                />
 
-              <input
-                className="w-12 bg-transparent text-center font-bold"
-                value={playerRound.points}
-                type="number"
-                placeholder="0"
-                onChange={(e) => {
-                  updatePlayerPoints(
-                    playerRound.index,
-                    e.currentTarget.valueAsNumber
-                  );
-                }}
-              />
-
-              {[1, 2, 5, 10].map((points) => (
-                <button
-                  type="button"
-                  onClick={() => addPointsToPlayer(playerRound.index, points)}
-                  className="bg-green-800 hover:bg-green-700 transition-colors rounded-sm min-w-8 aspect-square text-center text-sm"
-                >
-                  +{points}
-                </button>
-              ))}
+                <div className="flex gap-2">
+                  {[1, 2, 5, 10].map((points) => (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        addPointsToPlayer(playerRound.index, points)
+                      }
+                      className="bg-green-800 hover:bg-green-700 transition-colors rounded-sm min-w-8 aspect-square text-center text-sm"
+                    >
+                      +{points}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           ))}
           <div className="flex w-full justify-between mt-4">

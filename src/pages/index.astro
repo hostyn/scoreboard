@@ -2,18 +2,14 @@
 import Scoreboard from "@/components/Scoreboard";
 import Leaderboard from "@/components/Leaderboard";
 import NewRoundModal from "@/components/NewRoundModal";
-import AddNewPlayer from "@/components/AddNewPlayer";
 import Layout from "@/layouts/Layout.astro";
 
 ---
 
 <Layout title="Welcome to Astro.">
-	<main class="w-[800px] flex flex-col gap-8 my-16 mx-auto">
+	<main class="w-[800px] max-w-full min-h-screen px-4 py-8 flex flex-col gap-8  mx-auto">
 		<Leaderboard client:only />
-		<div>
-			<NewRoundModal client:only />
-			<AddNewPlayer client:only />
-		</div>
 		<Scoreboard client:only/>
+		<NewRoundModal client:only />
 	</main>
 </Layout>

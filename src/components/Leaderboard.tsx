@@ -11,32 +11,34 @@ export default function Leaderboard() {
   return (
     <div className="grid grid-cols-3 justify-items-center items-end">
       {topPlayers[1] && (
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-2 w-52 max-w-full">
           <span className="text-5xl">🥈</span>
-          <span className="font-bold text-gray-300">{topPlayers[1].name}</span>
-          <span className="pb-4 bg-gray-300/15 text-slate-300 w-52 text-center">
+          <span className="font-bold text-gray-300 text-xl">
+            {topPlayers[1].name}
+          </span>
+          <span className="pb-4 bg-gray-300/15 text-slate-300 w-full text-center">
             {topPlayers[1].totalPoints} pts.
           </span>
         </div>
       )}
       {topPlayers[0] && (
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-2 w-52 max-w-full">
           <span className="text-5xl">🥇</span>
-          <span className="font-bold text-yellow-300">
+          <span className="font-bold text-yellow-300 text-xl">
             {topPlayers[0].name}
           </span>
-          <span className="pb-8 bg-yellow-300/15 text-slate-300 w-52 text-center">
+          <span className="pb-8 bg-yellow-300/15 text-slate-300 w-full text-center">
             {topPlayers[0].totalPoints} pts.
           </span>
         </div>
       )}
       {topPlayers[2] && (
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-2 w-52 max-w-full">
           <span className="text-5xl">🥉</span>
-          <span className="font-bold text-yellow-600">
+          <span className="font-bold text-yellow-600 text-xl">
             {topPlayers[2].name}
           </span>
-          <span className="bg-yellow-600/15 text-slate-300 w-52 text-center">
+          <span className="bg-yellow-600/15 text-slate-300 w-full text-center">
             {topPlayers[2].totalPoints} pts.
           </span>
         </div>
