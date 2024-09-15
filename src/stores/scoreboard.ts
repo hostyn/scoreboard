@@ -29,6 +29,11 @@ $scoreboard.subscribe((value) => {
 export const addPlayer = (player: string) => {
   const scoreboard = $scoreboard.get();
 
+  const playerExists = scoreboard.players.some(
+    (actualPlayer) => actualPlayer.name === player
+  );
+  if (playerExists) throw new Error("Player already exists");
+
   if (scoreboard.rounds.length === 0) {
     $scoreboard.set({
       ...scoreboard,
