@@ -27,7 +27,7 @@ export default function NewRoundModal() {
       </button>
       <dialog
         open={modalOpen}
-        className="absolute top-0 bottom-0 left-0 right-0 p-8 bg-primary-950 text-white z-10 rounded-md w-[700px] max-w-[100vw] max-h-[100vh] overflow-scroll"
+        className="absolute top-0 bottom-0 left-0 right-0 p-8 bg-primary-950 text-white z-10 rounded-md w-[700px] max-w-[100vw] max-h-[100vh] overflow-auto"
       >
         <form
           className="m-auto flex flex-col"

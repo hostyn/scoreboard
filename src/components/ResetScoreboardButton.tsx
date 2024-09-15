@@ -14,7 +14,7 @@ export default function ResetScoreboardButton() {
       </button>
       <dialog
         open={modalOpen}
-        className="absolute top-0 bottom-0 left-0 right-0 p-8 bg-primary-950 text-white z-10 rounded-md w-96 max-w-[100vw] max-h-[100vh] overflow-scroll"
+        className="absolute top-0 bottom-0 left-0 right-0 p-8 bg-primary-950 text-white z-10 rounded-md w-96 max-w-[100vw] max-h-[100vh] overflow-auto"
       >
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold">Reset scoreboard?</h2>
