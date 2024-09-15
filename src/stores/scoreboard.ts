@@ -83,3 +83,10 @@ export const addRound = (round: number[]) => {
     rounds: [...scoreboard.rounds, round],
   });
 };
+
+export const reset = () => {
+  $scoreboard.set({
+    players: [],
+    rounds: [],
+  });
+};
