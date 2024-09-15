@@ -46,7 +46,7 @@ export default function NewRoundModal() {
               className="flex items-center border-b border-primary-500/20 py-2"
             >
               <span className="w-full text-gray-300">{playerRound.name}</span>
-              <div className="flex gap-2 flex-col items-center md:flex-row">
+              <div className="flex gap-2 flex-col-reverse items-center md:flex-row">
                 <div className="flex gap-2">
                   {[10, 5, 2, 1].map((points) => (
                     <button
