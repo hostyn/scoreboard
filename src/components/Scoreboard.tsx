@@ -1,12 +1,18 @@
 import { $scoreboard, addPlayer } from "@/stores/scoreboard";
 import { useStore } from "@nanostores/preact";
-import { useRef, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 
 export default function Scoreboard() {
   const scoreboard = useStore($scoreboard);
 
   const [addingPlayer, setAddingPlayer] = useState(false);
   const addPlayerInput = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!scoreboard) {
+      window.location.href = "/";
+    }
+  }, []);
 
   return (
     <div>
@@ -15,7 +21,7 @@ export default function Scoreboard() {
           <tr>
             <th className="text-left">#</th>
             <th className="text-left">Player</th>
-            {scoreboard.rounds.map((_round, index) => (
+            {scoreboard?.rounds.map((_round, index) => (
               <th key={index} className="text-left">
                 {index + 1}.
               </th>
@@ -24,7 +30,7 @@ export default function Scoreboard() {
           </tr>
         </thead>
         <tbody>
-          {scoreboard.players
+          {scoreboard?.players
             .sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1))
             .map((player, index) => (
               <tr key={player.index}>

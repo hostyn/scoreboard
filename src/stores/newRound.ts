@@ -10,10 +10,13 @@ interface PlayerRound {
 export const $newRound = atom<PlayerRound[]>([]);
 
 export const reset = () => {
+  const scoreboard = $scoreboard.get();
+
+  if (!scoreboard) throw new Error("No game selected");
+
   $newRound.set(
-    $scoreboard
-      .get()
-      .players.sort((a, b) => (a.index > b.index ? 1 : -1))
+    scoreboard.players
+      .sort((a, b) => (a.index > b.index ? 1 : -1))
       .map((player) => ({
         name: player.name,
         index: player.index,
@@ -36,7 +39,7 @@ export const addPointsToPlayer = (index: number, points: number) => {
   $newRound.set(newRound);
 };
 
-export const updatePlayerPoints = (index: number, points: number) => {
+export const updatePlayerPoints = (index: number, points?: number) => {
   const newRound = [...$newRound.get()];
   const playerIndex = newRound.findIndex((player) => player.index === index);
 

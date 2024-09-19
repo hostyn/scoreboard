@@ -10,36 +10,37 @@ import { useStore } from "@nanostores/preact";
 import { useState } from "preact/hooks";
 
 export default function NewRoundModal() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const scoreboard = useStore($scoreboard);
+  const [modalOpened, setModalOpened] = useState(false);
   const newRound = useStore($newRound);
+  const scoreboard = useStore($scoreboard);
 
   return (
     <>
       <button
         className="bg-primary-300 rounded-sm px-2 py-1 w-fit"
         onClick={() => {
+          setModalOpened(true);
           reset();
-          setModalOpen(true);
         }}
       >
         New round
       </button>
       <dialog
-        open={modalOpen}
+        open={modalOpened}
         className="absolute top-0 bottom-0 left-0 right-0 p-8 bg-primary-950 text-white z-10 rounded-md w-[700px] max-w-[100vw] max-h-[100vh] overflow-auto"
       >
         <form
           className="m-auto flex flex-col"
           onSubmit={(e) => {
             e.preventDefault();
-            setModalOpen(false);
+            setModalOpened(false);
             addRound();
           }}
         >
           <h2 className="text-xl font-semibold mb-4">
-            Round {scoreboard.rounds.length}
+            Round {scoreboard?.rounds.length}
           </h2>
+
           {newRound.map((playerRound) => (
             <div
               key={playerRound.index}
@@ -62,14 +63,17 @@ export default function NewRoundModal() {
                 </div>
 
                 <input
+                  key={playerRound.index}
                   className="w-12 bg-transparent text-center font-bold"
-                  value={playerRound.points}
+                  value={playerRound.points ?? ""}
                   type="number"
                   placeholder="0"
                   onChange={(e) => {
                     updatePlayerPoints(
                       playerRound.index,
-                      e.currentTarget.valueAsNumber
+                      Number.isNaN(e.currentTarget.valueAsNumber)
+                        ? undefined
+                        : e.currentTarget.valueAsNumber
                     );
                   }}
                 />
@@ -94,7 +98,7 @@ export default function NewRoundModal() {
             <button
               type="button"
               onClick={() => {
-                setModalOpen(false);
+                setModalOpened(false);
               }}
               className="text-red-400 font-bold hover:bg-red-900 hover:text-red-100 px-3 py-1 rounded-sm transition-colors"
             >
@@ -108,9 +112,9 @@ export default function NewRoundModal() {
       </dialog>
       <div
         className={`absolute w-screen h-screen top-0 bottom-0 left-0 right-0 backdrop-blur-sm bg-primary-400/15 ${
-          modalOpen ? "" : "hidden"
+          modalOpened ? "" : "hidden"
         }`}
-        onClick={() => setModalOpen(false)}
+        onClick={() => setModalOpened(false)}
       />
     </>
   );
