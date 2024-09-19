@@ -4,6 +4,8 @@ import { useStore } from "@nanostores/preact";
 export default function Leaderboard() {
   const scoreboard = useStore($scoreboard);
 
+  if (!scoreboard) return;
+
   const topPlayers = scoreboard.players.sort((a, b) =>
     a.totalPoints <= b.totalPoints ? 1 : -1
   );
