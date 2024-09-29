@@ -14,6 +14,10 @@ export default function Games() {
           const gameData = getScoreboard(game.id);
           if (!gameData) return null;
 
+          const topPlayers = gameData.players.sort((a, b) =>
+            a.totalPoints <= b.totalPoints ? 1 : -1
+          );
+
           return (
             <button
               key={game.id}
@@ -30,19 +34,19 @@ export default function Games() {
                 </p>
               </div>
               <div className="flex flex-col text-right">
-                {gameData.players[0] && (
+                {topPlayers[0] && (
                   <span className="md-typescale-body-medium text-yellow-300">
-                    1. {gameData.players[0]?.name}
+                    1. {topPlayers[0]?.name}
                   </span>
                 )}
-                {gameData.players[1] && (
+                {topPlayers[1] && (
                   <span className="md-typescale-body-medium text-gray-300">
-                    2. {gameData.players[1]?.name}
+                    2. {topPlayers[1]?.name}
                   </span>
                 )}
-                {gameData.players[1] && (
+                {topPlayers[2] && (
                   <span className="md-typescale-body-medium text-yellow-600">
-                    3. {gameData.players[1]?.name}
+                    3. {topPlayers[2]?.name}
                   </span>
                 )}
               </div>
