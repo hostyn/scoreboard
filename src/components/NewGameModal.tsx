@@ -30,7 +30,7 @@ export default function NewGameModal() {
       <MdFab
         variant="primary"
         size="large"
-        className="absolute bottom-4 right-4"
+        className="fixed bottom-4 right-4"
         onClick={() => setModalOpened(true)}
       >
         <AddIcon />
