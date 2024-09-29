@@ -4,6 +4,8 @@ interface Props {
 }
 
 const { title } = Astro.props;
+import '@material/web/typography/md-typescale-styles.css';
+
 ---
 
 <!doctype html>
@@ -36,4 +38,6 @@ const { title } = Astro.props;
 		--md-ref-typeface-brand: 'Open Sans';
   	--md-ref-typeface-plain: system-ui;
 	}
+
+	
 </style>
