@@ -1,6 +1,6 @@
 import { $scoreboard, addPlayer } from "@/stores/scoreboard";
-import { useStore } from "@nanostores/preact";
-import { useEffect, useRef, useState } from "preact/hooks";
+import { useStore } from "@nanostores/react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Scoreboard() {
   const scoreboard = useStore($scoreboard);
@@ -35,7 +35,7 @@ export default function Scoreboard() {
             .map((player, index) => (
               <tr key={player.index}>
                 <td
-                  class={`min-w-6 text-xl font-bold ${
+                  className={`min-w-6 text-xl font-bold ${
                     (index === 0 && "text-yellow-300") ||
                     (index === 1 && "text-gray-300") ||
                     (index === 2 && "text-yellow-600") ||

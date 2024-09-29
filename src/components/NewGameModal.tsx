@@ -1,5 +1,8 @@
 import { addGame } from "@/stores/games";
-import { useRef, useState } from "preact/hooks";
+import { useRef, useState } from "react";
+import "@material/web/fab/fab";
+import { MdFab } from "@/wrappers/materialWeb";
+import { AddIcon } from "./icons";
 
 export default function NewGameModal() {
   const [modalOpened, setModalOpened] = useState(false);
@@ -24,7 +27,14 @@ export default function NewGameModal() {
 
   return (
     <>
-      <button onClick={() => setModalOpened(true)}>New game</button>
+      <MdFab
+        variant="primary"
+        size="large"
+        className="absolute bottom-8 right-8"
+        onClick={() => setModalOpened(true)}
+      >
+        <AddIcon />
+      </MdFab>
       <dialog
         open={modalOpened}
         className="absolute top-0 bottom-0 left-0 right-0 p-8 bg-primary-950 text-white z-10 rounded-md w-[700px] max-w-[100vw] max-h-[100vh] overflow-auto"

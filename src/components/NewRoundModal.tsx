@@ -6,8 +6,8 @@ import {
   updatePlayerPoints,
 } from "@/stores/newRound";
 import { $scoreboard } from "@/stores/scoreboard";
-import { useStore } from "@nanostores/preact";
-import { useState } from "preact/hooks";
+import { useStore } from "@nanostores/react";
+import { useState } from "react";
 
 export default function NewRoundModal() {
   const [modalOpened, setModalOpened] = useState(false);

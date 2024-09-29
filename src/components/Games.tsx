@@ -1,6 +1,6 @@
 import { $games, selectGame } from "@/stores/games";
 import { getScoreboard } from "@/stores/scoreboard";
-import { useStore } from "@nanostores/preact";
+import { useStore } from "@nanostores/react";
 import NewGameModal from "./NewGameModal";
 
 export default function Games() {

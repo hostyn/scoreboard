@@ -1,5 +1,5 @@
 import { $scoreboard } from "@/stores/scoreboard";
-import { useStore } from "@nanostores/preact";
+import { useStore } from "@nanostores/react";
 
 export default function Leaderboard() {
   const scoreboard = useStore($scoreboard);
