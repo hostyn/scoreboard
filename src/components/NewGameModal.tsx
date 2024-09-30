@@ -1,29 +1,60 @@
 import { addGame } from "@/stores/games";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@material/web/fab/fab";
-import { MdFab } from "@/wrappers/materialWeb";
-import { AddIcon } from "./icons";
+import {
+  MdDialog,
+  MdFab,
+  MdFilledButton,
+  MdFilledTextField,
+  MdFilledTonalButton,
+  MdIconButton,
+  MdTextButton,
+} from "@/wrappers/materialWeb";
+import { AddIcon, CheckIcon, DeleteIcon, PersonIcon } from "./icons";
+import type { MdDialog as MdDialogType } from "@material/web/dialog/dialog";
+import type { MdFilledTextField as MdFilledTextFieldType } from "@material/web/textfield/filled-text-field";
 
 export default function NewGameModal() {
-  const [modalOpened, setModalOpened] = useState(false);
   const [players, setPlayers] = useState<string[]>([]);
-  const [addingPlayer, setAddingPlayer] = useState(false);
+  const [morePointsWins, setMorePointsWins] = useState(true);
 
-  const formElement = useRef<HTMLFormElement>(null);
-  const newPlayerInput = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<MdDialogType>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const nameInputRef = useRef<MdFilledTextFieldType>(null);
+  const newPlayerInputRef = useRef<MdFilledTextFieldType>(null);
 
   const handleCreateGame = () => {
-    const formData = new FormData(formElement.current as HTMLFormElement);
-    const gameData = Object.fromEntries(formData);
-
     addGame({
-      name: gameData.name as string,
-      morePointsWins: gameData.mode === "1",
+      name: nameInputRef.current?.value || "",
+      morePointsWins,
       players,
     });
 
     window.location.href = "/game";
   };
+
+  const addPlayer = (player: string) => {
+    if (player.trim() === "") {
+      return;
+    }
+
+    setPlayers([...players, player]);
+  };
+
+  useEffect(() => {
+    const resetForm = () => {
+      nameInputRef.current?.reset();
+      formRef.current?.reset();
+      setMorePointsWins(true);
+      setPlayers([]);
+    };
+
+    dialogRef.current?.addEventListener("close", resetForm);
+
+    return () => {
+      dialogRef.current?.removeEventListener("close", resetForm);
+    };
+  }, [dialogRef, formRef]);
 
   return (
     <>
@@ -31,122 +62,132 @@ export default function NewGameModal() {
         variant="primary"
         size="large"
         className="fixed bottom-4 right-4"
-        onClick={() => setModalOpened(true)}
+        onClick={() => dialogRef.current?.show()}
       >
-        <AddIcon />
+        <AddIcon slot="icon" />
       </MdFab>
-      <dialog
-        open={modalOpened}
-        className="absolute top-0 bottom-0 left-0 right-0 p-8 bg-primary-950 text-white z-10 rounded-md w-[700px] max-w-[100vw] max-h-[100vh] overflow-auto"
-      >
-        <div className="flex flex-col gap-2">
-          <h1>New Game</h1>
-          <form
-            ref={formElement}
-            className="flex flex-col gap-2"
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log(Object.fromEntries(new FormData(e.currentTarget)));
-            }}
-          >
-            <label className="flex flex-col">
-              Name
-              <input
-                type="text"
-                className="bg-transparent"
-                placeholder="Chinchon"
-                name="name"
-              />
-            </label>
-            <fieldset className="flex gap-2">
-              <legend className="flex items-center">Mode</legend>
-              <label className="has-[:checked]:bg-primary-800 px-2 py-1 cursor-pointer rounded-md bg-primary-900">
+
+      <MdDialog ref={dialogRef}>
+        <div slot="headline">
+          <h1 className="md-typescale-headline-small">Create new game</h1>
+        </div>
+
+        <div slot="content" id="new-game" className="flex flex-col gap-4">
+          <MdFilledTextField label="Game name" name="name" ref={nameInputRef} />
+
+          <div className="flex flex-wrap gap-2">
+            {!morePointsWins ? (
+              <MdFilledButton onClick={() => setMorePointsWins(false)}>
                 Less points wins
-                <input type="radio" value={0} name="mode" className="hidden" />
-              </label>
-              <label className="has-[:checked]:bg-primary-800 px-2 py-1 cursor-pointer rounded-md bg-primary-900">
-                More points wins
-                <input type="radio" value={1} name="mode" className="hidden" />
-              </label>
-            </fieldset>
-          </form>
-
-          <label>Players</label>
-          <div>
-            {players.map((player) => (
-              <p
-                key={player}
-                className="bg-primary-800"
-                onClick={() => {
-                  setPlayers(
-                    players.filter((actualPlayer) => player !== actualPlayer)
-                  );
-                }}
-              >
-                {player}
-              </p>
-            ))}
-            {addingPlayer ? (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const playerName = new FormData(e.currentTarget).get(
-                    "player"
-                  ) as string;
-
-                  const playerExists = players.includes(playerName);
-                  if (playerExists) return;
-
-                  setPlayers([...players, playerName]);
-                  e.currentTarget.reset();
-                }}
-              >
-                <input
-                  className="bg-transparent"
-                  name="player"
-                  ref={newPlayerInput}
-                  onBlur={(e) => {
-                    const playerName = e.currentTarget.value;
-                    if (!playerName) {
-                      setAddingPlayer(false);
-                      return;
-                    }
-
-                    const playerExists = players.includes(playerName);
-
-                    if (playerExists) {
-                      setAddingPlayer(false);
-                      return;
-                    }
-
-                    setPlayers([...players, playerName]);
-                    setAddingPlayer(false);
-                  }}
-                />
-              </form>
+                <CheckIcon slot="icon" />
+              </MdFilledButton>
             ) : (
-              <button
-                type="button"
-                onClick={() => {
-                  setAddingPlayer(true);
-                  setTimeout(() => {
-                    newPlayerInput.current?.focus();
-                  }, 0);
-                }}
-              >
-                Add player
-              </button>
+              <MdFilledTonalButton onClick={() => setMorePointsWins(false)}>
+                Less points wins
+              </MdFilledTonalButton>
+            )}
+            {morePointsWins ? (
+              <MdFilledButton onClick={() => setMorePointsWins(true)}>
+                More points wins
+                <CheckIcon slot="icon" />
+              </MdFilledButton>
+            ) : (
+              <MdFilledTonalButton onClick={() => setMorePointsWins(true)}>
+                More points wins
+              </MdFilledTonalButton>
             )}
           </div>
-          <button onClick={handleCreateGame}>Create game</button>
+
+          <h2 className="md-typescale-title-medium">Players</h2>
+
+          {players.length > 0 && (
+            <div>
+              {players.map((player) => (
+                <PlayerItem
+                  key={player}
+                  player={player}
+                  onClick={() => {
+                    setPlayers(players.filter((p) => p !== player));
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          <form
+            id="new-player"
+            ref={formRef}
+            className="flex gap-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log("hoal");
+
+              const playerName = new FormData(e.currentTarget).get(
+                "player"
+              ) as string;
+              addPlayer(playerName);
+            }}
+          >
+            <MdFilledTextField
+              ref={newPlayerInputRef}
+              label="Player name"
+              name="player"
+              className="w-full"
+              required
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addPlayer((e.target as any).value);
+                  formRef.current?.reset();
+                }
+              }}
+            >
+              <PersonIcon slot="leading-icon" />
+            </MdFilledTextField>
+            <MdFab
+              lowered
+              variant="primary"
+              onClick={(e) => {
+                e.preventDefault();
+
+                const playerName = formRef.current
+                  ? (new FormData(formRef.current).get("player") as string)
+                  : "";
+
+                addPlayer(playerName);
+                formRef.current?.reset();
+                newPlayerInputRef.current?.focus();
+              }}
+            >
+              <AddIcon slot="icon" />
+            </MdFab>
+          </form>
         </div>
-      </dialog>
-      <div
-        className={`absolute w-screen h-screen top-0 bottom-0 left-0 right-0 backdrop-blur-sm bg-primary-400/15 ${
-          modalOpened ? "" : "hidden"
-        }`}
-        onClick={() => setModalOpened(false)}
-      />
+        <div slot="actions">
+          <form slot="actions" method="dialog">
+            <MdTextButton>Cancel</MdTextButton>
+          </form>
+          <MdTextButton onClick={handleCreateGame}>Create game</MdTextButton>
+        </div>
+      </MdDialog>
     </>
   );
 }
+
+const PlayerItem = ({
+  player,
+  onClick,
+}: {
+  player: string;
+  onClick: () => void;
+}) => (
+  <div className="flex gap-4 py-2 items-center h-14">
+    <div className="size-10 min-w-10 rounded-full bg-primaryContainer flex items-center justify-center">
+      <PersonIcon className="fill-onSurfaceVariant" />
+    </div>
+    <p className="w-full md-typescale-body-medium text-onSurface">{player}</p>
+    <MdIconButton className="size-10 min-w-10" onClick={onClick}>
+      <DeleteIcon className="fill-onSurfaceVariant" />
+    </MdIconButton>
+  </div>
+);
