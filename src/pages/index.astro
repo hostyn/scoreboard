@@ -7,11 +7,6 @@ import Layout from "@/layouts/Layout.astro";
 ---
 
 <Layout title="Welcome to Astro.">
-	<header class="bg-surface h-16 flex items-center px-4">
-		<h1 class="text-3xl font-bold md-typescale-title-large">Games</h1>
-	</header>
-	<main class="w-[800px] max-w-full min-h-[calc(100vh-theme(spacing.16))] p-4 flex flex-col gap-8 mx-auto">
 		<Games client:only />
 		<NewGameModal client:only />
-	</main>
 </Layout>
