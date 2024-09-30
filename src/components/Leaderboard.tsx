@@ -11,37 +11,37 @@ export default function Leaderboard() {
   );
 
   return (
-    <div className="grid grid-cols-3 justify-items-center items-end">
-      {topPlayers[1] && (
-        <div className="flex flex-col items-center gap-2 w-52 max-w-full">
-          <span className="text-5xl">🥈</span>
-          <span className="font-bold text-gray-300 text-xl">
-            {topPlayers[1].name}
+    <div className="grid grid-cols-3 justify-items-center items-end gap-2">
+      {topPlayers[2] && (
+        <div className="flex flex-col items-center justify-center w-full col-start-1 bg-bronze/35 rounded-3xl h-[100px] p-2">
+          <span className="md-typescale-display-small">🥉</span>
+          <span className="md-typescale-title-medium max-w-full text-ellipsis whitespace-nowrap overflow-hidden">
+            {topPlayers[2].name}
           </span>
-          <span className="pb-4 bg-gray-300/15 text-slate-300 w-full text-center">
-            {topPlayers[1].totalPoints} pts.
+          <span className="md-typescale-body-small">
+            {topPlayers[2].totalPoints} pts.
           </span>
         </div>
       )}
       {topPlayers[0] && (
-        <div className="flex flex-col items-center gap-2 w-52 max-w-full">
-          <span className="text-5xl">🥇</span>
-          <span className="font-bold text-yellow-300 text-xl">
+        <div className="flex flex-col items-center justify-center w-full col-start-2 bg-gold/35 rounded-3xl h-[150px] p-2">
+          <span className="md-typescale-display-small">🥇</span>
+          <span className="md-typescale-title-medium max-w-full text-ellipsis whitespace-nowrap overflow-hidden">
             {topPlayers[0].name}
           </span>
-          <span className="pb-8 bg-yellow-300/15 text-slate-300 w-full text-center">
+          <span className="md-typescale-body-small">
             {topPlayers[0].totalPoints} pts.
           </span>
         </div>
       )}
-      {topPlayers[2] && (
-        <div className="flex flex-col items-center gap-2 w-52 max-w-full">
-          <span className="text-5xl">🥉</span>
-          <span className="font-bold text-yellow-600 text-xl">
-            {topPlayers[2].name}
+      {topPlayers[1] && (
+        <div className="flex flex-col items-center justify-center w-full col-start-3 bg-silver/35 rounded-3xl h-[125px] p-2">
+          <span className="md-typescale-display-small">🥈</span>
+          <span className="md-typescale-title-medium max-w-full text-ellipsis whitespace-nowrap overflow-hidden">
+            {topPlayers[1].name}
           </span>
-          <span className="bg-yellow-600/15 text-slate-300 w-full text-center">
-            {topPlayers[2].totalPoints} pts.
+          <span className="md-typescale-body-small">
+            {topPlayers[1].totalPoints} pts.
           </span>
         </div>
       )}

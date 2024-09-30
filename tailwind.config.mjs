@@ -4,6 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Material Design System Palette
         primary: "#D0BCFE",
         surfaceTint: "#D0BCFF",
         onPrimary: "#381E72",
@@ -53,6 +54,11 @@ export default {
         surfaceContainer: "#211F26",
         surfaceContainerHigh: "#2B2930",
         surfaceContainerHighest: "#36343B",
+
+        // Custom
+        gold: "#FFD700",
+        silver: "#C3C7C7",
+        bronze: "#A05822",
       },
     },
   },
