@@ -31,6 +31,11 @@ import '@material/web/typography/md-typescale-styles.css';
 	@tailwind components;
 	@tailwind utilities;
 
+	@font-face {
+  font-family: 'RobotoFlex';
+  src: url('/fonts/RobotoFlex.ttf') format('ttf');
+}
+
 	html {
 		@apply text-onSurface bg-surfaceContainerLowest;
 	}
@@ -40,9 +45,7 @@ import '@material/web/typography/md-typescale-styles.css';
 	}
 
 	:root {
-		--md-ref-typeface-brand: 'Open Sans';
-  	--md-ref-typeface-plain: system-ui;
+		--md-ref-typeface-brand: 'RobotoFlex', sans-serif;
+		--md-ref-typeface-plain: 'RobotoFlex', sans-serif;
 	}
-
-	
 </style>
