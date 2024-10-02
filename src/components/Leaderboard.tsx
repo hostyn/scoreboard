@@ -7,7 +7,13 @@ export default function Leaderboard() {
   if (!scoreboard) return;
 
   const topPlayers = scoreboard.players.sort((a, b) =>
-    a.totalPoints <= b.totalPoints ? 1 : -1
+    scoreboard.morePointsWins
+      ? a.totalPoints < b.totalPoints
+        ? 1
+        : -1
+      : a.totalPoints > b.totalPoints
+      ? 1
+      : -1
   );
 
   return (
