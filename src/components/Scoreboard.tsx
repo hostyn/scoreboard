@@ -1,6 +1,7 @@
 import { $scoreboard, type Player } from "@/stores/scoreboard";
 import { useStore } from "@nanostores/react";
 import { useEffect } from "react";
+import NewPlayerModal from "./NewPlayerModal";
 
 export default function Scoreboard() {
   const scoreboard = useStore($scoreboard);
@@ -12,12 +13,23 @@ export default function Scoreboard() {
   }, []);
 
   return (
-    <div>
-      {scoreboard?.players
-        .sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1))
-        .map((player, index) => (
-          <Player key={player.name} player={player} position={index + 1} />
-        ))}
+    <div className="flex flex-col gap-2">
+      <div>
+        {scoreboard?.players
+          .sort((a, b) =>
+            scoreboard.morePointsWins
+              ? a.totalPoints < b.totalPoints
+                ? 1
+                : -1
+              : a.totalPoints > b.totalPoints
+              ? 1
+              : -1
+          )
+          .map((player, index) => (
+            <Player key={player.name} player={player} position={index + 1} />
+          ))}
+      </div>
+      <NewPlayerModal />
     </div>
   );
 }

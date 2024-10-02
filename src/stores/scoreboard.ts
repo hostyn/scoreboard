@@ -28,7 +28,7 @@ $scoreboard.subscribe((value) => {
   localStorage.setItem($games.get().actualGame, JSON.stringify(value));
 });
 
-export const addPlayer = (player: string) => {
+export const addPlayer = (player: string, points?: number) => {
   const scoreboard = $scoreboard.get();
 
   if (!scoreboard) throw new Error("No game selected");
@@ -54,7 +54,7 @@ export const addPlayer = (player: string) => {
 
   const newPoints = scoreboard.morePointsWins
     ? scoreboard.players.reduce(
-        (min, player) => (player.totalPoints < min ? player.totalPoints : min),
+        (min, player) => (min < player.totalPoints ? min : player.totalPoints),
         NaN
       ) - 1
     : scoreboard.players.reduce(
@@ -68,7 +68,7 @@ export const addPlayer = (player: string) => {
       ...scoreboard.players,
       {
         name: player,
-        totalPoints: newPoints,
+        totalPoints: points ?? newPoints,
         index: scoreboard.players.length,
       },
     ],

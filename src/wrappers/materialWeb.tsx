@@ -9,6 +9,7 @@ import { MdFilledButton as MdFilledButtonWebComponent } from "@material/web/butt
 import { MdFilledTonalButton as MdFilledTonalButtonWebComponent } from "@material/web/button/filled-tonal-button";
 import { MdTextButton as MdTextButtonWebComponent } from "@material/web/button/text-button";
 import { MdIconButton as MdIconButtonWebComponent } from "@material/web/iconbutton/icon-button";
+import { MdRadio as MdRadioWebComponent } from "@material/web/radio/radio";
 
 export const MdFab = createComponent({
   tagName: "md-fab",
@@ -55,5 +56,11 @@ export const MdTextButton = createComponent({
 export const MdIconButton = createComponent({
   tagName: "md-icon-button",
   elementClass: MdIconButtonWebComponent,
+  react: React,
+});
+
+export const MdRadio = createComponent({
+  tagName: "md-radio",
+  elementClass: MdRadioWebComponent,
   react: React,
 });

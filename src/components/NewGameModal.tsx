@@ -120,7 +120,6 @@ export default function NewGameModal() {
             className="flex gap-4"
             onSubmit={(e) => {
               e.preventDefault();
-              console.log("hoal");
 
               const playerName = new FormData(e.currentTarget).get(
                 "player"
