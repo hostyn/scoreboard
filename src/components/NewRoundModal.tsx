@@ -21,6 +21,8 @@ export default function NewRoundModal() {
     dialogRef.current?.close();
   };
 
+  useEffect(reset, []);
+
   useEffect(() => {
     const resetForm = () => {
       reset();
