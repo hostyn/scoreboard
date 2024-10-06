@@ -21,17 +21,15 @@ export default function NewRoundModal() {
     dialogRef.current?.close();
   };
 
-  useEffect(reset, []);
-
   useEffect(() => {
     const resetForm = () => {
       reset();
     };
 
-    dialogRef.current?.addEventListener("close", resetForm);
+    dialogRef.current?.addEventListener("open", resetForm);
 
     return () => {
-      dialogRef.current?.removeEventListener("close", resetForm);
+      dialogRef.current?.removeEventListener("open", resetForm);
     };
   }, [dialogRef]);
 
