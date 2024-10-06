@@ -5,47 +5,53 @@ import {
   reset,
   updatePlayerPoints,
 } from "@/stores/newRound";
-import { $scoreboard } from "@/stores/scoreboard";
+import { MdDialog, MdFab, MdTextButton } from "@/wrappers/materialWeb";
 import { useStore } from "@nanostores/react";
-import { useState } from "react";
+import { useEffect, useRef } from "react";
+import { AddIcon } from "./icons";
+import type { MdDialog as MdDialogType } from "@material/web/dialog/dialog";
 
 export default function NewRoundModal() {
-  const [modalOpened, setModalOpened] = useState(false);
   const newRound = useStore($newRound);
-  const scoreboard = useStore($scoreboard);
+
+  const dialogRef = useRef<MdDialogType>(null);
+
+  const handleCreateGame = () => {
+    addRound();
+    dialogRef.current?.close();
+  };
+
+  useEffect(() => {
+    const resetForm = () => {
+      reset();
+    };
+
+    dialogRef.current?.addEventListener("close", resetForm);
+
+    return () => {
+      dialogRef.current?.removeEventListener("close", resetForm);
+    };
+  }, [dialogRef]);
 
   return (
     <>
-      <button
-        className="bg-primary-300 rounded-sm px-2 py-1 w-fit"
-        onClick={() => {
-          setModalOpened(true);
-          reset();
-        }}
+      <MdFab
+        variant="primary"
+        size="large"
+        className="fixed bottom-4 right-4"
+        onClick={() => dialogRef.current?.show()}
       >
-        New round
-      </button>
-      <dialog
-        open={modalOpened}
-        className="absolute top-0 bottom-0 left-0 right-0 p-8 bg-primary-950 text-white z-10 rounded-md w-[700px] max-w-[100vw] max-h-[100vh] overflow-auto"
-      >
-        <form
-          className="m-auto flex flex-col"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setModalOpened(false);
-            addRound();
-          }}
-        >
-          <h2 className="text-xl font-semibold mb-4">
-            Round {scoreboard?.rounds.length}
-          </h2>
+        <AddIcon slot="icon" />
+      </MdFab>
 
-          {newRound.map((playerRound) => (
-            <div
-              key={playerRound.index}
-              className="flex items-center border-b border-primary-500/20 py-2"
-            >
+      <MdDialog ref={dialogRef}>
+        <div slot="headline">
+          <h1 className="md-typescale-headline-small">Create new game</h1>
+        </div>
+
+        <div slot="content" id="new-game" className="flex flex-col gap-4">
+          {newRound.map((playerRound, index) => [
+            <div key={playerRound.index} className="flex items-center py-2">
               <span className="w-full text-gray-300">{playerRound.name}</span>
               <div className="flex gap-2 flex-col-reverse items-center md:flex-row">
                 <div className="flex gap-2">
@@ -92,30 +98,20 @@ export default function NewRoundModal() {
                   ))}
                 </div>
               </div>
-            </div>
-          ))}
-          <div className="flex w-full justify-between mt-4">
-            <button
-              type="button"
-              onClick={() => {
-                setModalOpened(false);
-              }}
-              className="text-red-400 font-bold hover:bg-red-900 hover:text-red-100 px-3 py-1 rounded-sm transition-colors"
-            >
-              Cancel
-            </button>
-            <button className="bg-green-600 hover:bg-green-500 transition-colors rounded-sm px-3 py-1">
-              Add round
-            </button>
-          </div>
-        </form>
-      </dialog>
-      <div
-        className={`absolute w-screen h-screen top-0 bottom-0 left-0 right-0 backdrop-blur-sm bg-primary-400/15 ${
-          modalOpened ? "" : "hidden"
-        }`}
-        onClick={() => setModalOpened(false)}
-      />
+            </div>,
+            index < newRound.length - 1 && (
+              <hr key={`hr-${playerRound.index}`} />
+            ),
+          ])}
+        </div>
+
+        <div slot="actions">
+          <form slot="actions" method="dialog">
+            <MdTextButton>Cancel</MdTextButton>
+          </form>
+          <MdTextButton onClick={handleCreateGame}>Add new round</MdTextButton>
+        </div>
+      </MdDialog>
     </>
   );
 }

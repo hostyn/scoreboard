@@ -13,7 +13,7 @@ export default function Scoreboard() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-6">
       <div>
         {scoreboard?.players
           .sort((a, b) =>
