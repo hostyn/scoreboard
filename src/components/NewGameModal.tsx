@@ -24,10 +24,16 @@ export default function NewGameModal() {
   const newPlayerInputRef = useRef<MdFilledTextFieldType>(null);
 
   const handleCreateGame = () => {
+    const playerName = formRef.current
+      ? (new FormData(formRef.current).get("player") as string)
+      : "";
+
+    const playerToAdd = playerName.trim() !== "" ? playerName : undefined;
+
     addGame({
       name: nameInputRef.current?.value || "",
       morePointsWins,
-      players,
+      players: playerToAdd ? [...players, playerToAdd] : players,
     });
 
     window.location.href = "/game";
