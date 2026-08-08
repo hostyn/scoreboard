@@ -4,7 +4,8 @@ declare module "react" {
   }
 }
 
-type IconProps = (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+// React 19 dejó de exponer el namespace global JSX; ahora cuelga de React.
+type IconProps = (props: React.SVGProps<SVGSVGElement>) => React.JSX.Element;
 
 export const AddIcon: IconProps = (props) => (
   <svg

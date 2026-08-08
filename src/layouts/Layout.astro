@@ -7,6 +7,7 @@ interface Props {
 
 const { title, heading, back } = Astro.props;
 import '@material/web/typography/md-typescale-styles.css';
+import '@/styles/global.css';
 ---
 
 <!doctype html>
@@ -38,7 +39,7 @@ import '@material/web/typography/md-typescale-styles.css';
 			)}
 			<h1 class="md-typescale-title-large truncate">{heading ?? title}</h1>
 		</header>
-		<main class="w-[800px] max-w-full min-h-[calc(100vh-theme(spacing.16))] p-4 pb-24 flex flex-col gap-8 mx-auto">
+		<main class="w-[800px] max-w-full min-h-[calc(100vh-4rem)] p-4 pb-24 flex flex-col gap-8 mx-auto">
 			<slot />
 		</main>
 		<script>
@@ -50,27 +51,3 @@ import '@material/web/typography/md-typescale-styles.css';
 		</script>
 	</body>
 </html>
-<style is:global>
-	@tailwind base;
-	@tailwind components;
-	@tailwind utilities;
-
-	@font-face {
-		font-family: 'RobotoFlex';
-		src: url('/fonts/RobotoFlex.ttf') format('truetype');
-		font-display: swap;
-	}
-
-	html {
-		@apply text-onSurface bg-surfaceContainerLowest;
-	}
-
-	input[type=number]::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-	}
-
-	:root {
-		--md-ref-typeface-brand: 'RobotoFlex', sans-serif;
-		--md-ref-typeface-plain: 'RobotoFlex', sans-serif;
-	}
-</style>

@@ -1,14 +1,18 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@astrojs/react";
 import AstroPWA from "@vite-pwa/astro";
 
 // https://astro.build/config
 export default defineConfig({
+  vite: {
+    // Tailwind 4 se integra como plugin de Vite; @astrojs/tailwind está
+    // deprecado y ya no soporta v4.
+    plugins: [tailwindcss()],
+  },
   integrations: [
-    tailwind({ applyBaseStyles: false }),
     react(),
     AstroPWA({
       registerType: "autoUpdate",

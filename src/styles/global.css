@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* Paleta de Material Design. Los nombres van en camelCase para que las
+   utilidades sigan siendo `text-onSurface`, `bg-surfaceContainerLowest`... */
+@theme {
+  --color-primary: #D0BCFE;
+  --color-surfaceTint: #D0BCFF;
+  --color-onPrimary: #381E72;
+  --color-primaryContainer: #4F378B;
+  --color-onPrimaryContainer: #EADDFF;
+  --color-secondary: #CCC2DC;
+  --color-onSecondary: #332D41;
+  --color-secondaryContainer: #4A4458;
+  --color-onSecondaryContainer: #E8DEF8;
+  --color-tertiary: #EFB8C8;
+  --color-onTertiary: #492532;
+  --color-tertiaryContainer: #633B48;
+  --color-onTertiaryContainer: #FFD8E4;
+  --color-error: #F2B8B5;
+  --color-onError: #601410;
+  --color-errorContainer: #8C1D18;
+  --color-onErrorContainer: #F9DEDC;
+  --color-background: #141218;
+  --color-onBackground: #E6E0E9;
+  --color-surface: #141218;
+  --color-onSurface: #E6E0E9;
+  --color-surfaceVariant: #49454F;
+  --color-onSurfaceVariant: #CAC4D0;
+  --color-outline: #938F99;
+  --color-outlineVariant: #49454F;
+  --color-shadow: #000000;
+  --color-scrim: #000000;
+  --color-inverseSurface: #E6E0E9;
+  --color-inverseOnSurface: #322F35;
+  --color-inversePrimary: #6750A4;
+  --color-primaryFixed: #EADDFF;
+  --color-onPrimaryFixed: #21005D;
+  --color-primaryFixedDim: #D0BCFF;
+  --color-onPrimaryFixedVariant: #4F378B;
+  --color-secondaryFixed: #E8DEF8;
+  --color-onSecondaryFixed: #1D192B;
+  --color-secondaryFixedDim: #CCC2DC;
+  --color-onSecondaryFixedVariant: #4A4458;
+  --color-tertiaryFixed: #FFD8E4;
+  --color-onTertiaryFixed: #31111D;
+  --color-tertiaryFixedDim: #EFB8C8;
+  --color-onTertiaryFixedVariant: #633B48;
+  --color-surfaceDim: #141218;
+  --color-surfaceBright: #3B383E;
+  --color-surfaceContainerLowest: #0F0D13;
+  --color-surfaceContainerLow: #1D1B20;
+  --color-surfaceContainer: #211F26;
+  --color-surfaceContainerHigh: #2B2930;
+  --color-surfaceContainerHighest: #36343B;
+  --color-gold: #FFD700;
+  --color-silver: #C3C7C7;
+  --color-bronze: #A05822;
+}
+
+/* Material Web lee la paleta de sus propias vars, en kebab-case. */
+:root {
+  --md-sys-color-primary: var(--color-primary);
+  --md-sys-color-surface-tint: var(--color-surfaceTint);
+  --md-sys-color-on-primary: var(--color-onPrimary);
+  --md-sys-color-primary-container: var(--color-primaryContainer);
+  --md-sys-color-on-primary-container: var(--color-onPrimaryContainer);
+  --md-sys-color-secondary: var(--color-secondary);
+  --md-sys-color-on-secondary: var(--color-onSecondary);
+  --md-sys-color-secondary-container: var(--color-secondaryContainer);
+  --md-sys-color-on-secondary-container: var(--color-onSecondaryContainer);
+  --md-sys-color-tertiary: var(--color-tertiary);
+  --md-sys-color-on-tertiary: var(--color-onTertiary);
+  --md-sys-color-tertiary-container: var(--color-tertiaryContainer);
+  --md-sys-color-on-tertiary-container: var(--color-onTertiaryContainer);
+  --md-sys-color-error: var(--color-error);
+  --md-sys-color-on-error: var(--color-onError);
+  --md-sys-color-error-container: var(--color-errorContainer);
+  --md-sys-color-on-error-container: var(--color-onErrorContainer);
+  --md-sys-color-background: var(--color-background);
+  --md-sys-color-on-background: var(--color-onBackground);
+  --md-sys-color-surface: var(--color-surface);
+  --md-sys-color-on-surface: var(--color-onSurface);
+  --md-sys-color-surface-variant: var(--color-surfaceVariant);
+  --md-sys-color-on-surface-variant: var(--color-onSurfaceVariant);
+  --md-sys-color-outline: var(--color-outline);
+  --md-sys-color-outline-variant: var(--color-outlineVariant);
+  --md-sys-color-shadow: var(--color-shadow);
+  --md-sys-color-scrim: var(--color-scrim);
+  --md-sys-color-inverse-surface: var(--color-inverseSurface);
+  --md-sys-color-inverse-on-surface: var(--color-inverseOnSurface);
+  --md-sys-color-inverse-primary: var(--color-inversePrimary);
+  --md-sys-color-primary-fixed: var(--color-primaryFixed);
+  --md-sys-color-on-primary-fixed: var(--color-onPrimaryFixed);
+  --md-sys-color-primary-fixed-dim: var(--color-primaryFixedDim);
+  --md-sys-color-on-primary-fixed-variant: var(--color-onPrimaryFixedVariant);
+  --md-sys-color-secondary-fixed: var(--color-secondaryFixed);
+  --md-sys-color-on-secondary-fixed: var(--color-onSecondaryFixed);
+  --md-sys-color-secondary-fixed-dim: var(--color-secondaryFixedDim);
+  --md-sys-color-on-secondary-fixed-variant: var(--color-onSecondaryFixedVariant);
+  --md-sys-color-tertiary-fixed: var(--color-tertiaryFixed);
+  --md-sys-color-on-tertiary-fixed: var(--color-onTertiaryFixed);
+  --md-sys-color-tertiary-fixed-dim: var(--color-tertiaryFixedDim);
+  --md-sys-color-on-tertiary-fixed-variant: var(--color-onTertiaryFixedVariant);
+  --md-sys-color-surface-dim: var(--color-surfaceDim);
+  --md-sys-color-surface-bright: var(--color-surfaceBright);
+  --md-sys-color-surface-container-lowest: var(--color-surfaceContainerLowest);
+  --md-sys-color-surface-container-low: var(--color-surfaceContainerLow);
+  --md-sys-color-surface-container: var(--color-surfaceContainer);
+  --md-sys-color-surface-container-high: var(--color-surfaceContainerHigh);
+  --md-sys-color-surface-container-highest: var(--color-surfaceContainerHighest);
+  --md-sys-color-gold: var(--color-gold);
+  --md-sys-color-silver: var(--color-silver);
+  --md-sys-color-bronze: var(--color-bronze);
+}
+
+@font-face {
+  font-family: "RobotoFlex";
+  src: url("/fonts/RobotoFlex.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  --md-ref-typeface-brand: "RobotoFlex", sans-serif;
+  --md-ref-typeface-plain: "RobotoFlex", sans-serif;
+}
+
+html {
+  @apply text-onSurface bg-surfaceContainerLowest;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

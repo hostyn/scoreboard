@@ -10,22 +10,22 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.3",
-    "@astrojs/react": "^3.6.2",
-    "@astrojs/tailwind": "^5.1.0",
-    "@lit/react": "^1.0.5",
-    "@material/web": "^2.2.0",
-    "@nanostores/react": "^0.8.0",
-    "@types/react": "^18.3.10",
-    "@types/react-dom": "^18.3.0",
-    "astro": "^4.15.6",
-    "nanostores": "^0.11.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tailwindcss": "^3.4.11",
-    "typescript": "^5.6.2"
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/react": "^6.0.2",
+    "@lit/react": "^1.0.8",
+    "@material/web": "^2.5.0",
+    "@nanostores/react": "^1.1.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "astro": "^7.2.0",
+    "nanostores": "^1.4.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "@vite-pwa/astro": "^1.2.0"
+    "@vite-pwa/astro": "^1.2.0",
+    "typescript": "^6.0.3"
   }
 }
