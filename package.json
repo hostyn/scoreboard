@@ -24,5 +24,8 @@
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.11",
     "typescript": "^5.6.2"
+  },
+  "devDependencies": {
+    "@vite-pwa/astro": "^1.2.0"
   }
 }

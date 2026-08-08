@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" fill="#4F378B" />
+  <!-- Podio: plata, oro, bronce. Dentro del 80% central para que el recorte
+       maskable de Android no se coma nada. -->
+  <g>
+    <rect x="112" y="272" width="88" height="128" rx="12" fill="#C3C7C7" />
+    <rect x="212" y="192" width="88" height="208" rx="12" fill="#FFD700" />
+    <rect x="312" y="320" width="88" height="80" rx="12" fill="#A05822" />
+  </g>
+  <circle cx="256" cy="132" r="36" fill="#FFD700" />
+</svg>

@@ -16,7 +16,11 @@ import '@material/web/typography/md-typescale-styles.css';
 		<meta name="description" content="Keep score for your board and card games." />
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 		<meta name="theme-color" content="#141218" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+		<link rel="manifest" href="/manifest.webmanifest" />
+		<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<title>{title}</title>
 	</head>
 	<body>
@@ -37,6 +41,13 @@ import '@material/web/typography/md-typescale-styles.css';
 		<main class="w-[800px] max-w-full min-h-[calc(100vh-theme(spacing.16))] p-4 pb-24 flex flex-col gap-8 mx-auto">
 			<slot />
 		</main>
+		<script>
+			// El service worker lo genera @vite-pwa/astro en modo `autoUpdate`,
+			// así que ya trae skipWaiting + clientsClaim: basta con registrarlo.
+			if ("serviceWorker" in navigator) {
+				navigator.serviceWorker.register("/sw.js");
+			}
+		</script>
 	</body>
 </html>
 <style is:global>
