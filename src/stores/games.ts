@@ -8,7 +8,7 @@ interface Game {
 }
 
 interface Games {
-  actualGame: string;
+  actualGame: string | null;
   games: Game[];
 }
 

@@ -14,7 +14,8 @@ export interface Scoreboard {
   rounds: Array<number[]>;
 }
 
-export const getScoreboard = (gameId: string): Scoreboard | null => {
+export const getScoreboard = (gameId: string | null): Scoreboard | null => {
+  if (!gameId) return null;
   const localScoreboard = localStorage.getItem(gameId);
   return localScoreboard ? (JSON.parse(localScoreboard) as Scoreboard) : null;
 };
@@ -24,8 +25,9 @@ export const $scoreboard = atom<Scoreboard | null>(
 );
 
 $scoreboard.subscribe((value) => {
-  if (value === null) return;
-  localStorage.setItem($games.get().actualGame, JSON.stringify(value));
+  const actualGame = $games.get().actualGame;
+  if (value === null || actualGame === null) return;
+  localStorage.setItem(actualGame, JSON.stringify(value));
 });
 
 export const addPlayer = (player: string, points?: number) => {

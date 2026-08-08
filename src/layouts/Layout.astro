@@ -32,9 +32,10 @@ import '@material/web/typography/md-typescale-styles.css';
 	@tailwind utilities;
 
 	@font-face {
-  font-family: 'RobotoFlex';
-  src: url('/fonts/RobotoFlex.ttf') format('ttf');
-}
+		font-family: 'RobotoFlex';
+		src: url('/fonts/RobotoFlex.ttf') format('truetype');
+		font-display: swap;
+	}
 
 	html {
 		@apply text-onSurface bg-surfaceContainerLowest;

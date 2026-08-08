@@ -1,4 +1,5 @@
 import { $scoreboard } from "@/stores/scoreboard";
+import { sortPlayers } from "@/util/sorting";
 import { useStore } from "@nanostores/react";
 
 export default function Leaderboard() {
@@ -6,15 +7,7 @@ export default function Leaderboard() {
 
   if (!scoreboard) return;
 
-  const topPlayers = scoreboard.players.sort((a, b) =>
-    scoreboard.morePointsWins
-      ? a.totalPoints < b.totalPoints
-        ? 1
-        : -1
-      : a.totalPoints > b.totalPoints
-      ? 1
-      : -1
-  );
+  const topPlayers = sortPlayers(scoreboard.players, scoreboard.morePointsWins);
 
   return (
     <div className="grid grid-cols-3 justify-items-center items-end gap-2">

@@ -1,6 +1,7 @@
 import { $games, selectGame } from "@/stores/games";
 import { getScoreboard } from "@/stores/scoreboard";
 import { dateFormatter } from "@/util/formatters";
+import { sortPlayers } from "@/util/sorting";
 import { useStore } from "@nanostores/react";
 
 export default function Games() {
@@ -8,14 +9,15 @@ export default function Games() {
 
   return (
     <div className="flex flex-col gap-4">
-      {games.games
-        .sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1))
+      {[...games.games]
+        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
         .map((game) => {
           const gameData = getScoreboard(game.id);
           if (!gameData) return null;
 
-          const topPlayers = gameData.players.sort((a, b) =>
-            a.totalPoints <= b.totalPoints ? 1 : -1
+          const topPlayers = sortPlayers(
+            gameData.players,
+            gameData.morePointsWins
           );
 
           return (
