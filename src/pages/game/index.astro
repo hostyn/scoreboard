@@ -1,15 +1,14 @@
 ---
 import Scoreboard from "@/components/Scoreboard";
 import Leaderboard from "@/components/Leaderboard";
-import NewRoundModal from "@/components/NewRoundModal";
+import RoundHistory from "@/components/RoundHistory";
+import RoundModal from "@/components/RoundModal";
 import Layout from "@/layouts/Layout.astro";
-
 ---
 
-<Layout title="Welcome to Astro.">
-		<Leaderboard client:only />
-		<Scoreboard client:only/>
-		<div>
-			<NewRoundModal client:only />
-		</div>
+<Layout title="Scoreboard" heading="Scoreboard" back="/">
+	<Leaderboard client:only="react" />
+	<Scoreboard client:only="react" />
+	<RoundHistory client:only="react" />
+	<RoundModal client:only="react" />
 </Layout>

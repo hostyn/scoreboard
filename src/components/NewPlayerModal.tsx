@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@material/web/fab/fab";
 import {
   MdDialog,
@@ -17,6 +17,7 @@ export default function NewPlayerModal() {
 
   const dialogRef = useRef<MdDialogType>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleAddPlayer = () => {
     if (!formRef.current) return;
@@ -25,24 +26,29 @@ export default function NewPlayerModal() {
     const strategy = form.get("strategy") as string;
     const points = form.get("points") as string;
 
-    if (!name) {
-      alert("Please enter a name.");
+    if (!name?.trim()) {
+      setError("Please enter a name.");
       return;
     }
 
     if (strategy === "custom" && !points) {
-      alert("Please enter the custom points.");
+      setError("Please enter the custom points.");
       return;
     }
 
-    addPlayer(
-      name,
-      strategy === "custom"
-        ? parseInt(points)
-        : strategy === "zero"
-        ? 0
-        : undefined
-    );
+    try {
+      addPlayer(
+        name,
+        strategy === "custom"
+          ? parseInt(points)
+          : strategy === "zero"
+          ? 0
+          : undefined
+      );
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not add the player");
+      return;
+    }
 
     dialogRef.current?.close();
   };
@@ -50,6 +56,7 @@ export default function NewPlayerModal() {
   useEffect(() => {
     const resetForm = () => {
       formRef.current?.reset();
+      setError(null);
       const defaultInput =
         formRef.current?.querySelector<HTMLInputElement>("#default");
       if (defaultInput) {
@@ -85,7 +92,12 @@ export default function NewPlayerModal() {
           className="flex flex-col gap-4"
           ref={formRef}
         >
-          <MdFilledTextField label="Player name" name="name">
+          <MdFilledTextField
+            label="Player name"
+            name="name"
+            error={error !== null}
+            errorText={error ?? ""}
+          >
             <PersonIcon slot="leading-icon" />
           </MdFilledTextField>
 

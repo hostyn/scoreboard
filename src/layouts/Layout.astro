@@ -1,27 +1,40 @@
 ---
 interface Props {
 	title: string;
+	heading?: string;
+	back?: string;
 }
 
-const { title } = Astro.props;
+const { title, heading, back } = Astro.props;
 import '@material/web/typography/md-typescale-styles.css';
-
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content="Keep score for your board and card games." />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<meta name="theme-color" content="#141218" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{title}</title>
 	</head>
 	<body>
-		<header class="bg-surface h-16 flex items-center px-4">
-			<h1 class="text-3xl font-bold md-typescale-title-large">Games</h1>
+		<header class="bg-surface h-16 flex items-center gap-2 px-4">
+			{back && (
+				<a
+					href={back}
+					aria-label="Back"
+					class="size-10 min-w-10 -ml-2 flex items-center justify-center rounded-full hover:bg-surfaceContainerHigh transition-colors"
+				>
+					<svg height="24px" viewBox="0 -960 960 960" width="24px" class="fill-onSurface">
+						<path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
+					</svg>
+				</a>
+			)}
+			<h1 class="md-typescale-title-large truncate">{heading ?? title}</h1>
 		</header>
-		<main class="w-[800px] max-w-full min-h-[calc(100vh-theme(spacing.16))] p-4 flex flex-col gap-8 mx-auto">
+		<main class="w-[800px] max-w-full min-h-[calc(100vh-theme(spacing.16))] p-4 pb-24 flex flex-col gap-8 mx-auto">
 			<slot />
 		</main>
 	</body>
@@ -42,7 +55,7 @@ import '@material/web/typography/md-typescale-styles.css';
 	}
 
 	input[type=number]::-webkit-inner-spin-button {
-  	-webkit-appearance: none;
+		-webkit-appearance: none;
 	}
 
 	:root {

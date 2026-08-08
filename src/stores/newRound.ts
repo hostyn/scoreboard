@@ -1,5 +1,9 @@
 import { atom } from "nanostores";
-import { $scoreboard, addRound as addRoundToScoreboard } from "./scoreboard";
+import {
+  $scoreboard,
+  addRound as addRoundToScoreboard,
+  updateRound as updateRoundInScoreboard,
+} from "./scoreboard";
 
 interface PlayerRound {
   name: string;
@@ -9,18 +13,39 @@ interface PlayerRound {
 
 export const $newRound = atom<PlayerRound[]>([]);
 
-export const reset = () => {
+/** Índice de la ronda que se está editando, o null si se está creando una nueva. */
+export const $editingRound = atom<number | null>(null);
+
+/** El modal vive en el layout, pero se abre desde el FAB y desde el historial. */
+export const $roundModalOpen = atom(false);
+
+export const openRoundModal = (roundIndex: number | null = null) => {
+  reset(roundIndex);
+  $roundModalOpen.set(true);
+};
+
+export const closeRoundModal = () => {
+  $roundModalOpen.set(false);
+};
+
+/** Prepara el formulario: vacío para una ronda nueva, relleno para editar una existente. */
+export const reset = (roundIndex: number | null = null) => {
   const scoreboard = $scoreboard.get();
 
   if (!scoreboard) throw new Error("No game selected");
 
+  const round = roundIndex === null ? null : scoreboard.rounds[roundIndex];
+
+  if (roundIndex !== null && !round) throw new Error("Round not found");
+
+  $editingRound.set(roundIndex);
   $newRound.set(
     [...scoreboard.players]
       .sort((a, b) => a.index - b.index)
       .map((player) => ({
         name: player.name,
         index: player.index,
-        points: undefined,
+        points: round?.[player.index],
       }))
   );
 };
@@ -50,12 +75,18 @@ export const updatePlayerPoints = (index: number, points?: number) => {
   setPoints(index, () => points);
 };
 
-export const addRound = () => {
-  const newRound = [...$newRound.get()]
+export const saveRound = () => {
+  const round = [...$newRound.get()]
     .sort((a, b) => a.index - b.index)
     .map((player) => player.points ?? 0);
 
-  addRoundToScoreboard(newRound);
+  const editing = $editingRound.get();
+
+  if (editing === null) {
+    addRoundToScoreboard(round);
+  } else {
+    updateRoundInScoreboard(editing, round);
+  }
 
   reset();
 };

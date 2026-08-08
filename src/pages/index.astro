@@ -1,12 +1,10 @@
 ---
-
 import Games from "@/components/Games";
 import NewGameModal from "@/components/NewGameModal";
 import Layout from "@/layouts/Layout.astro";
-
 ---
 
-<Layout title="Welcome to Astro.">
-		<Games client:only />
-		<NewGameModal client:only />
+<Layout title="Scoreboard" heading="Games">
+	<Games client:only="react" />
+	<NewGameModal client:only="react" />
 </Layout>

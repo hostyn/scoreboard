@@ -56,6 +56,7 @@ export const addGame = (newGame: {
       players: newGame.players.map((player, index) => ({
         index,
         name: player,
+        startingPoints: 0,
         totalPoints: 0,
       })),
       rounds: [],
@@ -74,6 +75,21 @@ export const selectGame = (game: string) => {
     ...$games.get(),
     actualGame: game,
   });
+};
+
+export const deleteGame = (game: string) => {
+  const games = $games.get();
+
+  if (!games.games.find((g) => g.id === game)) {
+    throw new Error("Game not found");
+  }
+
+  $games.set({
+    actualGame: games.actualGame === game ? null : games.actualGame,
+    games: games.games.filter((g) => g.id !== game),
+  });
+
+  localStorage.removeItem(game);
 };
 
 export const updateGame = () => {
