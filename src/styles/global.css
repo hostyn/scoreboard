@@ -113,15 +113,12 @@
   --md-sys-color-bronze: var(--color-bronze);
 }
 
-@font-face {
-  font-family: "RobotoFlex";
-  src: url("/fonts/RobotoFlex.ttf") format("truetype");
-  font-display: swap;
-}
-
+/* Los @font-face los aporta @fontsource-variable/roboto-flex, importado en
+   Layout.astro. Sirve la fuente troceada por idioma, así que el navegador solo
+   descarga el subset que necesita. */
 :root {
-  --md-ref-typeface-brand: "RobotoFlex", sans-serif;
-  --md-ref-typeface-plain: "RobotoFlex", sans-serif;
+  --md-ref-typeface-brand: "Roboto Flex Variable", sans-serif;
+  --md-ref-typeface-plain: "Roboto Flex Variable", sans-serif;
 }
 
 html {
