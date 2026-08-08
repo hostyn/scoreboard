@@ -21,7 +21,13 @@ export default defineConfig({
       // La app es 100% estática y guarda las partidas en localStorage, así que
       // precachearla entera la deja utilizable sin conexión.
       workbox: {
-        globPatterns: ["**/*.{js,css,html,svg,png,woff2}"],
+        globPatterns: [
+          "**/*.{js,css,html,svg,png}",
+          // Solo el subset latino, que es el que cubre el español entero. Los
+          // demás alfabetos se siguen sirviendo por red: precachearlos
+          // cuadruplicaba el peso para algo que esta interfaz no usa.
+          "**/*-latin-wght-normal*.woff2",
+        ],
         navigateFallback: "/",
       },
       manifest: {

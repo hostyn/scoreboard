@@ -1,0 +1,10 @@
+---
+// Andamio temporal para revisar el sistema visual. Se borra al terminar el
+// rediseño, junto con src/app/ui/Showcase.tsx.
+import Showcase from "@/app/ui/Showcase";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Sistema visual · Scoreboard" heading="Sistema visual">
+	<Showcase client:only="react" />
+</Layout>

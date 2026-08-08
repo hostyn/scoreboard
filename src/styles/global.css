@@ -1,7 +1,75 @@
 @import "tailwindcss";
 
-/* Paleta de Material Design. Los nombres van en camelCase para que las
-   utilidades sigan siendo `text-onSurface`, `bg-surfaceContainerLowest`... */
+/* ---------------------------------------------------------------------------
+   Sistema visual: la libreta
+
+   El mundo material de esto es una mesa, un tapete y una hoja de papel con una
+   columna por jugador. De ahí salen las superficies (verde tapete, no negro
+   neutro), la tinta cálida y la libreta de rondas como elemento firma.
+   --------------------------------------------------------------------------- */
+@theme {
+  /* Superficies: tapete oscuro con dos escalones por encima. */
+  --color-felt: #101a16;
+  --color-felt-raised: #16241d;
+  --color-felt-overlay: #1d3128;
+  /* Hundida: el papel de la libreta, para que la tabla lea como una hoja. */
+  --color-felt-sunken: #0b120f;
+
+  --color-line: #24382e;
+  --color-line-strong: #37503f;
+
+  /* Tinta: blanco cálido, nunca #FFFFFF. */
+  --color-ink: #f2eee2;
+  --color-ink-muted: #9fb0a5;
+  --color-ink-faint: #6d7f74;
+
+  /* Acento: tiza sobre el tapete. Marca la acción primaria y al líder.
+     Deliberadamente acromático para no competir con los colores de jugador. */
+  --color-chalk: #efe9d8;
+  --color-chalk-dim: #cdc7b7;
+
+  --color-danger: #f4796b;
+
+  /* Colores de jugador: identifican a QUIÉN, no la posición. Sustituyen por
+     completo a oro/plata/bronce. Seis tonos separados ~60º de tono, con
+     luminosidad pareja para que ninguno pese más que otro. */
+  --color-player-0: #f4796b;
+  --color-player-1: #f0a63e;
+  --color-player-2: #b9ce4f;
+  --color-player-3: #4fc4b0;
+  --color-player-4: #67aef0;
+  --color-player-5: #c08bee;
+
+  /* Tipografía: una con carácter para cifras y titulares, una neutra para UI. */
+  --font-display: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-ui: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 0.875rem;
+  --radius-key: 0.625rem;
+
+  /* Un solo momento de movimiento: el reordenamiento de la clasificación. */
+  --ease-standings: cubic-bezier(0.2, 0, 0, 1);
+  --duration-standings: 300ms;
+}
+
+/* Altura mínima de un target táctil. Regla dura del briefing: 48px. */
+@utility tap {
+  min-height: 3rem;
+  min-width: 3rem;
+}
+
+/* Cifras tabulares de verdad, para que los totales no bailen al cambiar. */
+@utility numeric {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ---------------------------------------------------------------------------
+   TEMPORAL: paleta de Material 3.
+   Solo la siguen usando las pantallas que aún no se han rediseñado.
+   Se borra entera con la última de ellas.
+   --------------------------------------------------------------------------- */
 @theme {
   --color-primary: #D0BCFE;
   --color-surfaceTint: #D0BCFF;
@@ -112,19 +180,53 @@
   --md-sys-color-silver: var(--color-silver);
   --md-sys-color-bronze: var(--color-bronze);
 }
-
-/* Los @font-face los aporta @fontsource-variable/roboto-flex, importado en
-   Layout.astro. Sirve la fuente troceada por idioma, así que el navegador solo
-   descarga el subset que necesita. */
+/* Las pantallas que aún son de Material usan la tipografía nueva, para no
+   arrastrar una tercera familia mientras dura la transición. */
 :root {
-  --md-ref-typeface-brand: "Roboto Flex Variable", sans-serif;
-  --md-ref-typeface-plain: "Roboto Flex Variable", sans-serif;
+  --md-ref-typeface-brand: var(--font-ui);
+  --md-ref-typeface-plain: var(--font-ui);
 }
 
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+
+/* Los @font-face los aportan los paquetes de Fontsource importados en el
+   layout: sirven la fuente troceada por idioma y el navegador solo descarga
+   el subset que necesita. */
+
 html {
-  @apply text-onSurface bg-surfaceContainerLowest;
+  background-color: var(--color-felt);
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+  /* Que el rebote del scroll en móvil no enseñe un blanco de fondo. */
+  overscroll-behavior-y: none;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+/* Foco visible siempre, sin depender de que cada componente se acuerde. */
+:focus-visible {
+  outline: 2px solid var(--color-chalk);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
+}
+
+/* El único movimiento orquestado es el de la clasificación; si el sistema pide
+   menos movimiento, se corta todo. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
