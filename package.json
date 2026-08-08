@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
+    "test": "vitest run",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "@vite-pwa/astro": "^1.2.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   }
 }
