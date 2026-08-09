@@ -1,54 +1,55 @@
-# Astro Starter Kit: Basics
+# Scoreboard
 
-```sh
-npm create astro@latest -- --template basics
+Marcador para partidas de mesa y cartas. Pensado para el móvil, en la mesa,
+mientras se juega: se usa con una mano, se mira de reojo y funciona sin
+cobertura.
+
+**Local-first, sin cuentas.** Todo vive en el dispositivo, en IndexedDB. No hay
+backend que mantener ni registro que pedir, y la app entera se puede instalar y
+usar sin conexión.
+
+## Cómo funciona
+
+Un **juego** es una plantilla: quién gana (más o menos puntos), cuándo termina,
+y cuatro atajos para el teclado. Una **partida** se lleva una copia congelada de
+esas reglas, así que editar la plantilla en noviembre no cambia el resultado de
+lo que se jugó en septiembre.
+
+Los totales nunca se guardan: se derivan de las rondas. Eso es lo que permite
+editar o borrar una ronda pasada y que todo cuadre solo.
+
+## Estructura
+
+```
+src/
+  domain/     lógica pura: tipos, clasificación, fin de partida. Sin UI ni IO.
+  db/         acceso a IndexedDB
+  app/        la isla: router de cliente, vistas, store y sistema visual
+  pages/      shell estático de Astro con el meta
+  styles/     tokens de diseño
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+`domain/` no importa nada de UI ni de persistencia, y es lo que cubren los
+tests. `getStandings()` es la única función que calcula posiciones: ninguna
+pantalla ordena por su cuenta.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Comandos
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+| Comando         | Qué hace                                  |
+| :-------------- | :---------------------------------------- |
+| `pnpm dev`      | Servidor de desarrollo en `localhost:4321` |
+| `pnpm test`     | Tests con vitest                          |
+| `pnpm build`    | Comprueba tipos y construye a `dist/`     |
+| `pnpm preview`  | Sirve la build local                      |
 
-## 🚀 Project Structure
+## Despliegue
 
-Inside of your Astro project, you'll see the following folders and files:
+Sitio estático. Las rutas de la isla (`/partida/:id`, `/nueva`…) no existen como
+ficheros: `404.astro` monta la misma app y el router de cliente resuelve la
+vista, que es lo que las hace funcionar en cualquier alojamiento estático. Para
+que además devuelvan 200, configura un rewrite de `/*` a `/index.html`.
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Stack
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Astro, React en una única isla, Tailwind 4, Radix como primitivas de UI,
+nanostores para el estado e `idb-keyval` sobre IndexedDB.

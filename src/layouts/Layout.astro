@@ -2,21 +2,15 @@
 interface Props {
 	title: string;
 	description?: string;
-	/** Sin `heading` el layout es un envoltorio pelado: la isla pone su propia cabecera. */
-	heading?: string;
-	back?: string;
 }
 
 const {
 	title,
 	description = "Lleva la cuenta de tus partidas de mesa y cartas. Funciona sin conexión y sin cuenta.",
-	heading,
-	back,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://scoreboard.hostyn.dev");
 
-import '@material/web/typography/md-typescale-styles.css';
 import '@fontsource-variable/space-grotesk';
 import '@fontsource-variable/inter';
 import '@/styles/global.css';
@@ -36,6 +30,7 @@ import '@/styles/global.css';
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={new URL("/icons/icon-512.png", canonical)} />
 		<meta property="og:locale" content="es_ES" />
 		<meta name="twitter:card" content="summary" />
 
@@ -47,29 +42,7 @@ import '@/styles/global.css';
 		<title>{title}</title>
 	</head>
 	<body>
-		{heading ? (
-			<>
-				<header class="bg-surface h-16 flex items-center gap-2 px-4">
-					{back && (
-						<a
-							href={back}
-							aria-label="Volver"
-							class="size-10 min-w-10 -ml-2 flex items-center justify-center rounded-full hover:bg-surfaceContainerHigh transition-colors"
-						>
-							<svg height="24px" viewBox="0 -960 960 960" width="24px" class="fill-onSurface">
-								<path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
-							</svg>
-						</a>
-					)}
-					<h1 class="md-typescale-title-large truncate">{heading}</h1>
-				</header>
-				<main class="w-[800px] max-w-full min-h-[calc(100vh-4rem)] p-4 pb-24 flex flex-col gap-8 mx-auto">
-					<slot />
-				</main>
-			</>
-		) : (
-			<slot />
-		)}
+		<slot />
 		<script>
 			// El service worker lo genera @vite-pwa/astro en modo `autoUpdate`,
 			// así que ya trae skipWaiting + clientsClaim: basta con registrarlo.

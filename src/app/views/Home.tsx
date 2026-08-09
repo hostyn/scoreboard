@@ -1,5 +1,6 @@
 import { useStore } from "@nanostores/react";
-import { Plus, RotateCcw } from "lucide-react";
+import { Database, Plus, RotateCcw } from "lucide-react";
+import { useState } from "react";
 import { getMatchName } from "@/domain/match";
 import { getStandings, hasClearLeader } from "@/domain/standings";
 import type { Match, Player, Round } from "@/domain/types";
@@ -13,15 +14,17 @@ import {
   repeatMatch,
 } from "../stores/app";
 import { S } from "../strings";
-import { Button } from "../ui/Button";
+import { Button, IconButton } from "../ui/Button";
 import { cn } from "../ui/cn";
 import { playerBg } from "../ui/players";
+import { DataDialog } from "./DataDialog";
 
 export default function Home() {
   const ready = useStore($ready);
   const matches = useStore($matches);
   const players = useStore($players);
   const rounds = useStore($rounds);
+  const [dataOpen, setDataOpen] = useState(false);
 
   const byId = new Map(players.map((player) => [player.id, player]));
 
@@ -35,8 +38,11 @@ export default function Home() {
 
   return (
     <div className="mx-auto flex w-full max-w-2xl grow flex-col">
-      <header className="px-5 pb-2 pt-6">
+      <header className="flex items-center justify-between gap-2 px-5 pb-2 pt-6">
         <h1 className="font-display text-2xl">{S.home.title}</h1>
+        <IconButton label={S.home.data} onClick={() => setDataOpen(true)}>
+          <Database size={20} />
+        </IconButton>
       </header>
 
       <div className="flex grow flex-col gap-8 px-5 pb-32">
@@ -71,6 +77,7 @@ export default function Home() {
       </div>
 
       <BottomBar />
+      <DataDialog open={dataOpen} onOpenChange={setDataOpen} />
     </div>
   );
 }

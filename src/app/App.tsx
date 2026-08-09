@@ -1,14 +1,20 @@
 import { useStore } from "@nanostores/react";
 import { useEffect } from "react";
-import { $route, listenToHistory } from "./router";
-import { bootstrap } from "./stores/app";
+import { $route, listenToHistory, type Route } from "./router";
+import { $ready, bootstrap } from "./stores/app";
+import { S } from "./strings";
 import { Toaster } from "./ui/Toast";
 import Home from "./views/Home";
-import Soon from "./views/Soon";
+import Match from "./views/Match";
+import Missing from "./views/Missing";
+import NewMatch from "./views/NewMatch";
+import RoundEntry from "./views/RoundEntry";
+import TemplateEdit from "./views/TemplateEdit";
 
 /** Toda la app en una isla: el estado de una partida no sobrevive a recargas. */
 export default function App() {
   const route = useStore($route);
+  const ready = useStore($ready);
 
   useEffect(() => {
     void bootstrap();
@@ -18,25 +24,51 @@ export default function App() {
   return (
     <Toaster>
       <div className="flex min-h-dvh flex-col">
-        <View route={route} />
+        <View route={route} ready={ready} />
       </div>
     </Toaster>
   );
 }
 
-function View({ route }: { route: ReturnType<typeof $route.get> }) {
+function View({ route, ready }: { route: Route; ready: boolean }) {
+  // La home enseña su propio esqueleto. Las demás vistas siembran estado desde
+  // el store al montar, así que entrar por URL directa antes de que IndexedDB
+  // responda las dejaría con datos vacíos: no se montan hasta tenerlo.
+  if (!ready && route.name !== "home") return <Loading />;
+
   switch (route.name) {
     case "home":
       return <Home />;
     case "new-match":
-      return <Soon what="Nueva partida · fase 5" />;
+      return <NewMatch />;
     case "match":
-      return <Soon what="Pantalla de partida · fase 6" />;
+      // La clave reinicia el estado local al cambiar de partida.
+      return <Match key={route.matchId} matchId={route.matchId} />;
     case "round":
-      return <Soon what="Entrada de ronda · fase 7" />;
+      return (
+        <RoundEntry
+          key={`${route.matchId}:${route.roundIndex ?? "nueva"}`}
+          matchId={route.matchId}
+          roundIndex={route.roundIndex}
+        />
+      );
     case "template":
-      return <Soon what="Plantilla de juego · fase 5" />;
+      return (
+        <TemplateEdit
+          key={route.templateId ?? "nuevo"}
+          templateId={route.templateId}
+        />
+      );
     case "not-found":
-      return <Soon what="Esa dirección no existe" />;
+      return <Missing />;
   }
 }
+
+const Loading = () => (
+  <div
+    className="flex grow items-center justify-center p-8 text-sm text-ink-faint"
+    aria-busy
+  >
+    {S.common.loading}
+  </div>
+);
