@@ -1,10 +1,8 @@
 ---
-import Games from "@/components/Games";
-import NewGameModal from "@/components/NewGameModal";
+import App from "@/app/App";
 import Layout from "@/layouts/Layout.astro";
 ---
 
-<Layout title="Scoreboard" heading="Games">
-	<Games client:only="react" />
-	<NewGameModal client:only="react" />
+<Layout title="Scoreboard · Puntuaciones de mesa y cartas">
+	<App client:only="react" />
 </Layout>

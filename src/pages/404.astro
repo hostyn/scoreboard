@@ -1,0 +1,12 @@
+---
+// Las rutas de la isla (/partida/:id, /nueva...) no existen como ficheros. Un
+// alojamiento estático sirve esta página para todas ellas, y el router de
+// cliente resuelve la vista mirando la URL. Así los enlaces directos funcionan
+// aunque el service worker todavía no esté instalado.
+import App from "@/app/App";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Scoreboard · Puntuaciones de mesa y cartas">
+	<App client:only="react" />
+</Layout>

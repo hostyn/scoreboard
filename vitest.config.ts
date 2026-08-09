@@ -8,6 +8,8 @@ export default defineConfig({
     alias: { "@": "/src" },
   },
   test: {
-    include: ["src/domain/**/*.test.ts"],
+    // `domain/` es lo que el briefing exige cubrir; se incluye también la
+    // lógica pura de `app/` (fechas, resúmenes de reglas) por el mismo motivo.
+    include: ["src/{domain,app}/**/*.test.ts"],
   },
 });
