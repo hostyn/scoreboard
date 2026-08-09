@@ -31,10 +31,14 @@ import '@/styles/global.css';
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
 		<meta property="og:image" content={new URL("/icons/icon-512.png", canonical)} />
+		<meta property="og:image:alt" content="Tres fichas en diagonal sobre un tapete verde" />
 		<meta property="og:locale" content="es_ES" />
 		<meta name="twitter:card" content="summary" />
 
-		<link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		{/* Fallback para navegadores que no aceptan SVG; /favicon.ico se pide solo,
+		    pero declararlo evita la petición extra a la raíz. */}
+		<link rel="icon" sizes="32x32" href="/favicon.ico" />
 		<link rel="manifest" href="/manifest.webmanifest" />
 		<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
