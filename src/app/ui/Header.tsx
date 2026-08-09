@@ -18,7 +18,11 @@ export function Header({ title, subtitle, onBack, actions, sticky }: Props) {
     <header
       className={cn(
         "flex items-center gap-2 px-3 py-3",
-        sticky && "sticky top-0 z-20 border-b border-line bg-felt/95 backdrop-blur"
+        // El borde de la cabecera pegajosa necesita aire debajo: sin él el
+        // contenido arranca tocándolo. El margen va aquí y no en cada vista
+        // porque el problema es de la cabecera, no de lo que venga detrás.
+        sticky &&
+          "sticky top-0 z-20 mb-4 border-b border-line bg-felt/95 backdrop-blur"
       )}
     >
       {onBack && (
