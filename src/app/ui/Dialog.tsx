@@ -1,6 +1,7 @@
 import * as RadixDialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import type { ReactNode } from "react";
+import { S } from "../strings";
 import { IconButton } from "./Button";
 import { cn } from "./cn";
 
@@ -52,7 +53,7 @@ export function Dialog({
               )}
             </div>
             <RadixDialog.Close asChild>
-              <IconButton label="Cerrar" className="-mr-2 -mt-2">
+              <IconButton label={S.common.close} className="-mr-2 -mt-2">
                 <X size={20} />
               </IconButton>
             </RadixDialog.Close>

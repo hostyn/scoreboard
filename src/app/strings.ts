@@ -126,6 +126,7 @@ export const S = {
 
   common: {
     cancel: "Cancelar",
+    close: "Cerrar",
     undo: "Deshacer",
     undone: (what: string) => `${what}: deshecho`,
     back: "Volver",

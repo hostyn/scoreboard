@@ -1,12 +1,13 @@
 import * as ToastPrimitive from "@radix-ui/react-toast";
+import { X } from "lucide-react";
 import {
   createContext,
   useCallback,
   useContext,
-  useMemo,
   useState,
   type ReactNode,
 } from "react";
+import { S } from "../strings";
 import { cn } from "./cn";
 
 interface ToastSpec {
@@ -18,6 +19,11 @@ interface ToastSpec {
 interface Entry extends ToastSpec {
   id: number;
 }
+
+const DURATION = 6000;
+
+/** Suficientes para encadenar un par de acciones, sin taparle la pantalla a nadie. */
+const MAX_VISIBLE = 3;
 
 const ToastContext = createContext<((spec: ToastSpec) => void) | null>(null);
 
@@ -32,18 +38,18 @@ export function Toaster({ children }: { children: ReactNode }) {
   const [entries, setEntries] = useState<Entry[]>([]);
 
   const push = useCallback((spec: ToastSpec) => {
-    setEntries((current) => [...current, { ...spec, id: Date.now() + Math.random() }]);
+    setEntries((current) =>
+      [...current, { ...spec, id: Date.now() + Math.random() }].slice(-MAX_VISIBLE)
+    );
   }, []);
 
   const dismiss = useCallback((id: number) => {
     setEntries((current) => current.filter((entry) => entry.id !== id));
   }, []);
 
-  const value = useMemo(() => push, [push]);
-
   return (
-    <ToastContext.Provider value={value}>
-      <ToastPrimitive.Provider swipeDirection="down" duration={6000}>
+    <ToastContext.Provider value={push}>
+      <ToastPrimitive.Provider swipeDirection="up" duration={DURATION}>
         {children}
 
         {entries.map((entry) => (
@@ -51,13 +57,15 @@ export function Toaster({ children }: { children: ReactNode }) {
             key={entry.id}
             onOpenChange={(open) => !open && dismiss(entry.id)}
             className={cn(
-              "flex items-center gap-4 rounded-card border border-line",
-              "bg-felt-overlay px-4 py-3 font-ui text-sm text-ink shadow-xl"
+              "pointer-events-auto flex items-center gap-3 rounded-card border border-line",
+              "bg-felt-overlay py-2 pl-4 pr-2 font-ui text-sm text-ink shadow-xl",
+              "data-[swipe=end]:opacity-0"
             )}
           >
             <ToastPrimitive.Title className="grow">
               {entry.message}
             </ToastPrimitive.Title>
+
             {entry.action && (
               <ToastPrimitive.Action
                 asChild
@@ -66,21 +74,39 @@ export function Toaster({ children }: { children: ReactNode }) {
               >
                 <button
                   type="button"
-                  className="shrink-0 font-medium text-chalk underline underline-offset-4"
+                  className="shrink-0 px-1 font-medium text-chalk underline underline-offset-4"
                 >
                   {entry.action.label}
                 </button>
               </ToastPrimitive.Action>
             )}
+
+            {/* Sin esto solo quedaba esperar o deslizar, que no se adivina. */}
+            <ToastPrimitive.Close asChild>
+              <button
+                type="button"
+                aria-label={S.common.close}
+                className="flex size-8 shrink-0 items-center justify-center rounded-key text-ink-muted transition-colors hover:bg-felt-raised hover:text-ink"
+              >
+                <X size={16} />
+              </button>
+            </ToastPrimitive.Close>
           </ToastPrimitive.Root>
         ))}
 
+        {/*
+          Arriba a propósito. Abajo se solapaba con la acción primaria de cada
+          pantalla y con el teclado de la ronda, y además Radix pausa la cuenta
+          atrás con `pointermove` sobre el viewport: al pulsar el botón el aviso
+          quedaba congelado para siempre.
+
+          `pointer-events-none` en la franja para que no intercepte nada cuando
+          está vacía; cada aviso los reactiva por su cuenta.
+        */}
         <ToastPrimitive.Viewport
           className={cn(
-            "fixed inset-x-0 bottom-0 z-50 flex flex-col gap-2 p-4",
-            // Por encima de la barra inferior y de la zona segura del sistema.
-            "pb-[calc(1rem+env(safe-area-inset-bottom))]",
-            "mx-auto max-w-md outline-none"
+            "pointer-events-none fixed inset-x-0 top-0 z-50 mx-auto flex max-w-md",
+            "flex-col gap-2 p-3 pt-[calc(0.75rem+env(safe-area-inset-top))] outline-none"
           )}
         />
       </ToastPrimitive.Provider>
