@@ -12,6 +12,7 @@ import {
   saveTemplate,
 } from "../stores/app";
 import { S } from "../strings";
+import { BottomBar } from "../ui/BottomBar";
 import { Button } from "../ui/Button";
 import { Field, RadioCards, Switch, TextInput } from "../ui/Field";
 import { Header } from "../ui/Header";
@@ -177,13 +178,11 @@ export default function TemplateEdit({ templateId }: { templateId: string | null
         )}
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-felt/95 backdrop-blur">
-        <div className="mx-auto w-full max-w-2xl p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-          <Button variant="primary" block onClick={submit}>
-            {S.template.save}
-          </Button>
-        </div>
-      </div>
+      <BottomBar>
+        <Button variant="primary" block onClick={submit}>
+          {S.template.save}
+        </Button>
+      </BottomBar>
     </div>
   );
 }

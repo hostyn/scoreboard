@@ -19,6 +19,7 @@ import {
   undo,
 } from "../stores/app";
 import { S } from "../strings";
+import { BottomBar } from "../ui/BottomBar";
 import { Button, IconButton } from "../ui/Button";
 import { cn } from "../ui/cn";
 import { Dialog } from "../ui/Dialog";
@@ -127,7 +128,7 @@ export default function Match({ matchId }: { matchId: string }) {
         />
       </div>
 
-      <BottomBar
+      <MatchBar
         canUndo={undoStack.length > 0}
         onUndo={() => {
           const what = undo();
@@ -374,7 +375,7 @@ function Notebook({
 }
 
 /** Deshacer a la izquierda, acción primaria a la derecha. Ambas para el pulgar. */
-function BottomBar({
+function MatchBar({
   canUndo,
   onUndo,
   onNewRound,
@@ -384,26 +385,24 @@ function BottomBar({
   onNewRound: () => void;
 }) {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-felt/95 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-5xl gap-3 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-        <Button
-          variant="ghost"
-          icon={<Undo2 size={18} />}
-          disabled={!canUndo}
-          onClick={onUndo}
-          className="shrink-0"
-        >
-          {S.common.undo}
-        </Button>
-        <Button
-          variant="primary"
-          block
-          icon={<Plus size={18} />}
-          onClick={onNewRound}
-        >
-          {S.match.newRound}
-        </Button>
-      </div>
-    </div>
+    <BottomBar width="max-w-5xl">
+      <Button
+        variant="ghost"
+        icon={<Undo2 size={18} />}
+        disabled={!canUndo}
+        onClick={onUndo}
+        className="shrink-0"
+      >
+        {S.common.undo}
+      </Button>
+      <Button
+        variant="primary"
+        block
+        icon={<Plus size={18} />}
+        onClick={onNewRound}
+      >
+        {S.match.newRound}
+      </Button>
+    </BottomBar>
   );
 }

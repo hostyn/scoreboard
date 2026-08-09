@@ -95,19 +95,22 @@ export function Toaster({ children }: { children: ReactNode }) {
         ))}
 
         {/*
-          Arriba a propósito. Abajo se solapaba con la acción primaria de cada
-          pantalla y con el teclado de la ronda, y además Radix pausa la cuenta
-          atrás con `pointermove` sobre el viewport: al pulsar el botón el aviso
-          quedaba congelado para siempre.
+          Justo encima de la barra inferior, nunca sobre ella: `--bottom-inset`
+          la publica cada pantalla midiéndose. Antes la franja se solapaba con
+          la acción primaria, y como Radix pausa la cuenta atrás con
+          `pointermove` sobre el viewport, pulsar el botón congelaba el aviso.
 
           `pointer-events-none` en la franja para que no intercepte nada cuando
           está vacía; cada aviso los reactiva por su cuenta.
         */}
         <ToastPrimitive.Viewport
           className={cn(
-            "pointer-events-none fixed inset-x-0 top-0 z-50 mx-auto flex max-w-md",
-            "flex-col gap-2 p-3 pt-[calc(0.75rem+env(safe-area-inset-top))] outline-none"
+            // Por encima incluso de los diálogos: el aviso de importación
+            // fallida salta con el diálogo de datos todavía abierto.
+            "pointer-events-none fixed inset-x-0 z-[60] mx-auto flex max-w-md",
+            "flex-col gap-2 px-3 pb-2 outline-none"
           )}
+          style={{ bottom: "var(--bottom-inset, 0px)" }}
         />
       </ToastPrimitive.Provider>
     </ToastContext.Provider>

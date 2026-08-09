@@ -14,6 +14,7 @@ import {
   repeatMatch,
 } from "../stores/app";
 import { S } from "../strings";
+import { BottomBar } from "../ui/BottomBar";
 import { Button, IconButton } from "../ui/Button";
 import { cn } from "../ui/cn";
 import { playerBg } from "../ui/players";
@@ -76,7 +77,7 @@ export default function Home() {
         )}
       </div>
 
-      <BottomBar />
+      <NewMatchBar />
       <DataDialog open={dataOpen} onOpenChange={setDataOpen} />
     </div>
   );
@@ -273,18 +274,15 @@ function FinishedCard({
   );
 }
 
-/** Acción primaria al alcance del pulgar, sobre la zona segura del sistema. */
-const BottomBar = () => (
-  <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-felt/95 backdrop-blur">
-    <div className="mx-auto w-full max-w-2xl p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-      <Button
-        variant="primary"
-        block
-        icon={<Plus size={18} />}
-        onClick={() => navigate({ name: "new-match" })}
-      >
-        {S.home.newMatch}
-      </Button>
-    </div>
-  </div>
+const NewMatchBar = () => (
+  <BottomBar>
+    <Button
+      variant="primary"
+      block
+      icon={<Plus size={18} />}
+      onClick={() => navigate({ name: "new-match" })}
+    >
+      {S.home.newMatch}
+    </Button>
+  </BottomBar>
 );

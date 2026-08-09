@@ -1,6 +1,6 @@
 import { useStore } from "@nanostores/react";
 import { Delete } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { unscoredCount } from "@/domain/match";
 import { totalFor } from "@/domain/standings";
 import type { Player, PlayerId } from "@/domain/types";
@@ -13,6 +13,7 @@ import { cn } from "../ui/cn";
 import { Header } from "../ui/Header";
 import { playerBg } from "../ui/players";
 import { useToast } from "../ui/Toast";
+import { useBottomInset } from "../ui/useBottomInset";
 import Missing from "./Missing";
 
 /** Buffers de texto para poder distinguir "" (sin puntuar) de "0" (anotado). */
@@ -217,8 +218,16 @@ function Keypad({
   onNext: () => void;
   onSave: () => void;
 }) {
+  // Los avisos se colocan encima del teclado, que mide bastante más que una
+  // barra de una sola acción.
+  const ref = useRef<HTMLDivElement>(null);
+  useBottomInset(ref);
+
   return (
-    <div className="sticky bottom-0 flex flex-col gap-2 border-t border-line bg-felt p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+    <div
+      ref={ref}
+      className="sticky bottom-0 flex flex-col gap-2 border-t border-line bg-felt p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
+    >
       <div className="grid grid-cols-4 gap-2">
         {shortcuts.map((value, position) => (
           <button
